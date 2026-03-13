@@ -1,0 +1,39 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Next.js
+.next/
+out/
+
+# Payload
+.payload/
+
+# Build outputs
+dist/
+go-server/oat-server
+go-server/oat-server.exe
+
+# Env
+.env
+.env.local
+.env.*.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+
+# Claude / agents
+.claude/
+.agent/
+.agents/
+.kilocode/
+
+# Logs
+*.log
+npm-debug.log*
