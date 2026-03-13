@@ -1,4 +1,1 @@
-// Import shadcn CSS variables so --font-sans, --radius, and the .dark palette
-// are available in the admin context. Uses shadcn-vars.css (no Tailwind
-// directives) instead of globals.css which SCSS cannot compile.
-@import '../../styles/shadcn-vars.css';
+// Custom admin styles — add overrides here if needed

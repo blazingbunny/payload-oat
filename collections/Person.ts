@@ -8,9 +8,6 @@ export const Person: CollectionConfig = {
     useAsTitle: 'name',
     description: 'Schema.org/Person record — one per tenant',
     defaultColumns: ['name', 'jobTitle', 'updatedAt'],
-    components: {
-      beforeList: ['./components/admin/CollectionHeader#PersonHeader'],
-    },
   },
   fields: [
     // ── Core identity ─────────────────────────────────────────────

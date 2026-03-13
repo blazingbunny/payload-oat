@@ -7,11 +7,8 @@ export const Media: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'filename',
-    description: 'Images and uploads — always upload from entityhome.digital/admin',
+    description: 'Images and uploads',
     defaultColumns: ['filename', 'alt', 'mimeType', 'filesize'],
-    components: {
-      beforeList: ['./components/admin/CollectionHeader#MediaHeader'],
-    },
   },
   upload: true,
   fields: [
