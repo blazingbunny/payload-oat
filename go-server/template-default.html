@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{.Person.Name}}{{if .Person.JobTitle}} — {{.Person.JobTitle}}{{end}}</title>
+  <meta name="description" content="{{.Person.Description}}">
+  <link rel="stylesheet" href="https://unpkg.com/@knadh/oat/dist/oat.min.css">
+  <script src="https://unpkg.com/@knadh/oat/dist/oat.min.js" defer></script>
+  <style>
+    /* ── Per-tenant overrides go here ── */
+    :root {
+      --primary: #111;
+      --font-sans: system-ui, sans-serif;
+    }
+
+    body { max-width: 860px; margin: 0 auto; padding: 2rem 1.25rem; }
+    header { display: flex; align-items: center; gap: 1rem; margin-bottom: 3rem; }
+    header img { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; }
+    .hero { margin-bottom: 3rem; }
+    .hero h1 { margin-bottom: 0.25rem; }
+    .hero p { color: var(--muted-foreground); margin: 0; }
+    .section-label { font-size: 0.75rem; font-weight: 600; text-transform: uppercase;
+                     letter-spacing: 0.08em; color: var(--muted-foreground); margin-bottom: 1rem; }
+    .chip { display: inline-block; padding: 0.2rem 0.65rem; border-radius: 9999px;
+            background: var(--muted); font-size: 0.8125rem; margin: 0.2rem; }
+    blockquote { border-left: 3px solid var(--border); padding-left: 1.25rem; margin: 0; }
+    .social-links { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    section { margin-bottom: 3rem; }
+    footer { border-top: 1px solid var(--border); padding-top: 2rem;
+             display: flex; justify-content: space-between; align-items: center;
+             color: var(--muted-foreground); font-size: 0.875rem; }
+  </style>
+</head>
+<body>
+
+  <!-- ── Site header ──────────────────────────────────────────────────────── -->
+  <header>
+    {{if .Person.ImageURL}}
+    <img src="{{.Person.ImageURL}}" alt="{{.Person.Name}}">
+    {{end}}
+    <div>
+      <strong>{{.Person.Name}}</strong>
+      {{if .Person.JobTitle}}<br><small>{{.Person.JobTitle}}</small>{{end}}
+    </div>
+    <nav style="margin-left:auto;">
+      <a href="#about">About</a>
+      {{if .Person.HasOccupation}}<a href="#work">Work</a>{{end}}
+      {{if or .Person.AlumniOf .Person.HasCredential .Person.Award}}<a href="#credentials">Credentials</a>{{end}}
+      {{if .Person.KnowsAbout}}<a href="#expertise">Expertise</a>{{end}}
+      {{if .Person.Testimonials}}<a href="#testimonials">Testimonials</a>{{end}}
+      {{if or .Person.Email .Person.URL .Person.SameAs}}<a href="#contact">Contact</a>{{end}}
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- ── Hero ─────────────────────────────────────────────────────────── -->
+    <section class="hero" id="about">
+      <h1>{{.Person.Name}}</h1>
+      {{if .Person.Tagline}}<p>{{.Person.Tagline}}</p>{{end}}
+      {{if .Person.Description}}<p>{{.Person.Description}}</p>{{end}}
+
+      {{if .Person.WorksForName}}
+      <p>
+        {{if .Person.WorksForURL}}
+        <a href="{{.Person.WorksForURL}}" rel="noopener noreferrer">{{.Person.WorksForName}}</a>
+        {{else}}
+        {{.Person.WorksForName}}
+        {{end}}
+      </p>
+      {{end}}
+    </section>
+
+    <!-- ── Work experience ───────────────────────────────────────────────── -->
+    {{if .Person.HasOccupation}}
+    <section id="work">
+      <p class="section-label">Experience</p>
+      {{range .Person.HasOccupation}}
+      <article class="card" style="margin-bottom:1rem;">
+        <div class="card-header">
+          <strong>{{.Name}}</strong>
+          {{if .Organization}}<span> — {{.Organization}}</span>{{end}}
+        </div>
+        {{if or .StartDate .EndDate}}
+        <div class="card-content" style="color:var(--muted-foreground);font-size:0.875rem;">
+          {{if .StartDate}}{{.StartDate}}{{end}}
+          {{if and .StartDate .EndDate}} – {{end}}
+          {{if .EndDate}}{{.EndDate}}{{else if .StartDate}}Present{{end}}
+        </div>
+        {{end}}
+        {{if .Description}}<div class="card-content"><p>{{.Description}}</p></div>{{end}}
+      </article>
+      {{end}}
+    </section>
+    {{end}}
+
+    <!-- ── Credentials ───────────────────────────────────────────────────── -->
+    {{if or .Person.AlumniOf .Person.HasCredential .Person.Award}}
+    <section id="credentials">
+      <p class="section-label">Credentials</p>
+
+      {{if .Person.AlumniOf}}
+      <p style="font-size:0.75rem;font-weight:600;margin-bottom:0.5rem;">Education</p>
+      <ul>
+        {{range .Person.AlumniOf}}
+        <li>
+          {{if .URL}}<a href="{{.URL}}" rel="noopener noreferrer">{{.Name}}</a>{{else}}{{.Name}}{{end}}
+          {{if .Degree}} — {{.Degree}}{{end}}
+          {{if .EndDate}} <small>({{.EndDate}})</small>{{end}}
+        </li>
+        {{end}}
+      </ul>
+      {{end}}
+
+      {{if .Person.HasCredential}}
+      <p style="font-size:0.75rem;font-weight:600;margin-bottom:0.5rem;">Certifications</p>
+      <ul>
+        {{range .Person.HasCredential}}
+        <li>
+          {{if .URL}}<a href="{{.URL}}" rel="noopener noreferrer">{{.Name}}</a>{{else}}{{.Name}}{{end}}
+          {{if .IssuedBy}} — {{.IssuedBy}}{{end}}
+          {{if .DateIssued}} <small>({{.DateIssued}})</small>{{end}}
+        </li>
+        {{end}}
+      </ul>
+      {{end}}
+
+      {{if .Person.Award}}
+      <p style="font-size:0.75rem;font-weight:600;margin-bottom:0.5rem;">Awards</p>
+      <ul>
+        {{range .Person.Award}}
+        <li>
+          {{if .URL}}<a href="{{.URL}}" rel="noopener noreferrer">{{.Name}}</a>{{else}}{{.Name}}{{end}}
+          {{if .IssuedBy}} — {{.IssuedBy}}{{end}}
+          {{if .Date}} <small>({{.Date}})</small>{{end}}
+        </li>
+        {{end}}
+      </ul>
+      {{end}}
+    </section>
+    {{end}}
+
+    <!-- ── Expertise ─────────────────────────────────────────────────────── -->
+    {{if .Person.KnowsAbout}}
+    <section id="expertise">
+      <p class="section-label">Expertise</p>
+      {{range .Person.KnowsAbout}}
+      <span class="chip">{{.Topic}}</span>
+      {{end}}
+    </section>
+    {{end}}
+
+    <!-- ── Testimonials ───────────────────────────────────────────────────── -->
+    {{if .Person.Testimonials}}
+    <section id="testimonials">
+      <p class="section-label">What People Say</p>
+      {{range .Person.Testimonials}}
+      <figure style="margin-bottom:1.5rem;">
+        <blockquote><p>{{.ReviewBody}}</p></blockquote>
+        <figcaption style="margin-top:0.5rem;font-size:0.875rem;color:var(--muted-foreground);">
+          — <cite>{{.Author}}</cite>
+          {{if .DatePublished}} · {{.DatePublished}}{{end}}
+        </figcaption>
+      </figure>
+      {{end}}
+    </section>
+    {{end}}
+
+    <!-- ── Contact ────────────────────────────────────────────────────────── -->
+    {{if or .Person.Email .Person.URL .Person.SameAs}}
+    <section id="contact">
+      <p class="section-label">Contact</p>
+      <nav class="social-links">
+        {{if .Person.Email}}
+        <a href="mailto:{{.Person.Email}}" class="button">{{.Person.Email}}</a>
+        {{end}}
+        {{if .Person.URL}}
+        <a href="{{.Person.URL}}" rel="noopener noreferrer" class="button" data-variant="outline">Website</a>
+        {{end}}
+        {{range .Person.SameAs}}
+        <a href="{{.URL}}" rel="noopener noreferrer me" class="button" data-variant="outline">
+          {{if .Label}}{{.Label}}{{else}}{{.URL}}{{end}}
+        </a>
+        {{end}}
+      </nav>
+    </section>
+    {{end}}
+
+  </main>
+
+  <!-- ── Site footer ──────────────────────────────────────────────────────── -->
+  <footer>
+    <span>{{.Person.Name}}</span>
+    {{if .Person.SameAs}}
+    <nav class="social-links">
+      {{range .Person.SameAs}}
+      <a href="{{.URL}}" rel="noopener noreferrer me" style="font-size:0.8125rem;">
+        {{if .Label}}{{.Label}}{{else}}{{.URL}}{{end}}
+      </a>
+      {{end}}
+    </nav>
+    {{end}}
+  </footer>
+
+</body>
+</html>

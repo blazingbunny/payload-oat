@@ -1,13 +1,9 @@
 import type { CollectionConfig } from 'payload'
-import { triggerDeploy } from '../hooks/deploy-hook'
 
 // Schema.org/Person — field slugs mirror Schema.org property names 1:1
 // JSON-LD keys match Payload field slugs — no translation layer
 export const Person: CollectionConfig = {
   slug: 'person',
-  hooks: {
-    afterChange: [triggerDeploy],
-  },
   admin: {
     useAsTitle: 'name',
     description: 'Schema.org/Person record — one per tenant',
