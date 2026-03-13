@@ -3,7 +3,6 @@
 import React from 'react'
 import { usePathname } from 'next/navigation'
 import { User, Building2, ImageIcon, ExternalLink, Plus, LayoutDashboard, ChevronDown } from 'lucide-react'
-import '../../styles/payload-admin-override.css'
 import '../../styles/admin.css'
 
 const tenantDomain = process.env.NEXT_PUBLIC_FIRST_TENANT_DOMAIN ?? 'adriandelrosario.com'
