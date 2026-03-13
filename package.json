@@ -1,0 +1,43 @@
+{
+  "name": "payload-oat",
+  "version": "0.1.0",
+  "description": "Vanilla Payload CMS + oat Go server",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "payload generate:types && payload generate:importmap && next build",
+    "start": "next start",
+    "generate:types": "payload generate:types",
+    "generate:importmap": "payload generate:importmap",
+    "payload": "payload"
+  },
+  "dependencies": {
+    "@payloadcms/db-postgres": "3.79.0",
+    "@payloadcms/next": "3.79.0",
+    "@payloadcms/plugin-multi-tenant": "3.79.0",
+    "@payloadcms/richtext-lexical": "3.79.0",
+    "graphql": "^16.8.1",
+    "next": "15.4.11",
+    "payload": "3.79.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "sharp": "0.32.6"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "typescript": "^5.0.0"
+  },
+  "engines": {
+    "node": "^18.20.2 || >=20.9.0"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "sharp",
+      "unrs-resolver"
+    ]
+  }
+}
